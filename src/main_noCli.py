@@ -22,9 +22,11 @@ class MyFrame1 (threading.Thread):
 		print('playlist url:')
 		self.url_text = input()
 
+		print('save music path:')
+		self.savePath = input()
 
-		if not os.path.exists("/Volumes/HHD/Music/music"):
-			os.mkdir('/Volumes/HHD/Music/music')
+		if not os.path.exists(self.savePath):
+			os.mkdir(self.savePath)
 		
 
 	def __del__( self ):
@@ -33,7 +35,6 @@ class MyFrame1 (threading.Thread):
 	def start(self):
 		# self.output_text.AppendText(u"歌曲获取成功,任务线程开启///\n")
 		self.get(self.musicData)
-
 
 	def main_button_click( self ):
 		self.musicData = []
@@ -52,22 +53,24 @@ class MyFrame1 (threading.Thread):
 		rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
 		for x in tqdm(values):
 			x['name'] = re.sub(rstr, "_", x['name'])
-			if not os.path.exists("/Volumes/HHD/Music/music/" + x['name'] + '.mp3'):
+			if not os.path.exists(
+					os.path.join(self.savePath, x['name'] + '.mp3')):
 				print('***** ' + x['name'] + '.mp3 ***** Downloading...')
 				url = 'http://music.163.com/song/media/outer/url?id=' + x['id'] + '.mp3'
 				try: 
-					self.saveFile(url,'/Volumes/HHD/Music/music/' + x['name'] + '.mp3')
+					self.saveFile(
+						url,
+						os.path.join(self.savePath, x['name'] + '.mp3'))
 					downNum = downNum + 1
 				except:
 					x = x - 1
 					# self.output_text.AppendText(u'Download wrong~\n')
 		# self.output_text.AppendText('Download complete ' + str(downNum) + ' files !\n')
 		# pass
-		pirnt('Download complete ' + str(downNum) + ' files !\n')
+		print('Download complete ' + str(downNum) + ' files !\n')
 
 	def getMusicData(self,url):
 		headers    = {'User-Agent':self.user_agent}
-
 		webData    = requests.get(url,headers=headers).text
 		soup       = BeautifulSoup(webData,'lxml')
 		find_list  = soup.find('ul',class_="f-hide").find_all('a')

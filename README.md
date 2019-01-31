@@ -5,7 +5,7 @@
 * 20180807 项目上传
 
 ## 要求（py脚本）
-* python3+requests+wxpython+BeautifulSoup4+lxml
+* python3+requests+wxpython+BeautifulSoup4+lxml+tqdm
 
 ## 文件结构：
 ```bash
@@ -18,10 +18,21 @@
 ├── README.md
 ├── src
 │   ├── main.py
+│   ├── main_noCli.py
 ```
 
 ## 使用方法
-* 可从dist文件中直接下载main.exe使用或者直接main.py
+* main_noCli.py 是无界面命令行版
+* 可从 dist 文件中直接下载 main.exe 使用或者直接 main.py
+
+```
+python3 src_noCli.py
+# input examples
+# playlist url:
+# https://music.163.com/#/playlist?id=386407930
+# save music path:
+# /Volumes/HHD/Music/music
+```
    
 ![](./images/example.gif)
 
